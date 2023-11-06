@@ -217,3 +217,4 @@ class Boy:
         if group == 'boy:ball':  # 볼과 충돌했구나
             self.ball_count += 1
         if group == 'boy:zombie':
+            game_framework.quit()
