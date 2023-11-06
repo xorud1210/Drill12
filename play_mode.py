@@ -34,7 +34,24 @@ def init():
     game_world.add_object(boy, 1)
 
     # fill here
+    # 볼을 바닥에 50개 생성
+    global balls
+    balls =[Ball(random.randint(0,1600),60, 0) for _ in range(50)]
+    game_world.add_objects(balls, 1)
 
+    # 충돌 검사 필요 상황을 등록
+    game_world.add_collision_pair('boy:ball', boy, None)  # boy 등록
+    for ball in balls:
+        game_world.add_collision_pair('boy:ball', None, ball)
+
+    zombies = [Zombie() for _ in range(5)]
+    game_world.add_objects(zombies, 1)
+    game_world.add_collision_pair('boy:zombie', boy, None)
+    for zombie in zombies:
+        game_world.add_collision_pair('zombie:ball', zombie, None)
+        game_world.add_collision_pair('boy:zombie', None, zombie)
+    for ball in balls:
+        game_world.add_collision_pair('zombie:ball', None, ball)
 
 
 def finish():
@@ -45,6 +62,9 @@ def finish():
 def update():
     game_world.update()
     # fill here
+    game_world.handle_collisions()
+
+
 
 def draw():
     clear_canvas()
